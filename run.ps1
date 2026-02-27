@@ -8,6 +8,7 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 $RepoRoot = $PSScriptRoot
 Push-Location $RepoRoot
@@ -52,17 +53,15 @@ try {
   }
 
   $Sample = Join-Path $RepoRoot "data\sample_multi_month.csv"
-  if (-not $SkipSampleGen) {
-    $Big1 = Join-Path $RepoRoot "ops-bigdata\flight_data_2024.csv"
-    $Big2 = Join-Path $HOME "Desktop\ops-bigdata\flight_data_2024.csv"
-    $Big3 = Join-Path $HOME "Masaustuu\ops-bigdata\flight_data_2024.csv"
-    $HasBig = (Test-Path $Big1) -or (Test-Path $Big2) -or (Test-Path $Big3)
 
-    if ($HasBig -and (Test-Path (Join-Path $RepoRoot "analysis.py"))) {
+  if (-not $SkipSampleGen) {
+    $Big = Join-Path $RepoRoot "ops-bigdata\flight_data_2024.csv"
+
+    if ((Test-Path $Big) -and (Test-Path (Join-Path $RepoRoot "analysis.py"))) {
       Write-Host "[DATA] Generating data\sample_multi_month.csv (from big CSV)..."
       & $PyVenv "analysis.py" | Out-Host
     } elseif (-not (Test-Path $Sample)) {
-      throw "Missing data\sample_multi_month.csv AND big dataset not found. Put flight_data_2024.csv in ops-bigdata\ or Desktop\ops-bigdata\ then re-run."
+      throw "Missing data\sample_multi_month.csv AND big dataset not found. Put flight_data_2024.csv in ops-bigdata\ then re-run."
     } else {
       Write-Host "[DATA] Using existing data\sample_multi_month.csv"
     }
