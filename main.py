@@ -2,9 +2,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-csv_path = Path("data") / "sample.csv"
+csv_path = Path("data") / "sample_multi_month.csv"
 if not csv_path.exists():
-    raise FileNotFoundError("data/sample.csv yok. Önce sample.csv üretmelisin.")
+   raise FileNotFoundError("data/sample_multi_month.csv yok. Önce analysis.py ile multi-month sample üretmelisin.")
 
 print("Kullanılan dosya:", csv_path)
 df = pd.read_csv(csv_path)
