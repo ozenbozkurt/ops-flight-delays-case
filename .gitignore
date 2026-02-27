@@ -1,0 +1,4 @@
+.venv/
+ops-bigdata/
+bigdata/
+data/flight_data_2024.csv
